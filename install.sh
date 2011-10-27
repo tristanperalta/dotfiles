@@ -1,9 +1,12 @@
 #!/bin/sh
 
 echo 'Installing dotfiles...'
-DOTFILES_PATH=~/dotfiles/
-ln -s ${DOTFILES_PATH}.bashrc     ~/.bashrc
-ln -s ${DOTFILES_PATH}.hgrc       ~/.hgrc
-ln -s ${DOTFILES_PATH}.gitconfig  ~/.gitconfig
-ln -s ${DOTFILES_PATH}.gemrc      ~/.gemrc
+for F in $(ls .bashrc .hgrc .gitconfig .gemrc); do
+	if [ -f $HOME/$F ]; then
+		echo "**** Found existing ${F}, skipping..."
+	else
+		echo "Symlinking ${F}"
+		ln -s $PWD/$F $HOME/$F
+	fi
+done
 echo 'Done'
