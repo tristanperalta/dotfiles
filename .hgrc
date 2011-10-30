@@ -1,6 +1,5 @@
 [ui]
 username = Tristan Peralta <tristanperalta@gmail.com>
-[ui]
 ssh = ssh -C
 
 [extensions]
