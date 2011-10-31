@@ -77,7 +77,7 @@ ps1_hg()
   shopt -s extglob
 
   branch=$(hg branch 2>/dev/null) || return 0
-  sha1=$(hg tip | head -1 | cut -c 16-)
+  sha1=$(hg tip | head -1 | cut -c 14-)
 
   case ${branch} in
     stable)
