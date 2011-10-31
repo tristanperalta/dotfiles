@@ -26,7 +26,7 @@ ps1_rvm()
 }
 
 ps1_git() {
-  local branch="" sha1="" line="" attr="" color=""
+  local branch="" sha1="" color=""
 
   shopt -s extglob
   
@@ -60,7 +60,44 @@ ps1_git() {
     *)
       if [[ -n ${branch} ]]; then # Feature branch
         color=2
-        printf " \033[36m(git:feature:${branch}:${sha1})\033[0m "
+      else
+        true
+      fi
+      ;;
+  esac
+
+  printf "\033[3${color}m(git:${branch}:${sha1})\033[0m "
+  return 0
+}
+
+ps1_hg()
+{
+  local branch="" sha1="" color=""
+
+  shopt -s extglob
+
+  branch=$(hg branch 2>/dev/null) || return 0
+  sha1=$(hg tip | head -1 | cut -c 16-)
+
+  case ${branch} in
+    stable)
+      color=1 # red
+      ;;
+    default)
+      color=2 # green
+      ;;
+    stage)
+      color=3 # yellow
+      ;;
+    dev|development)
+      color=4 # cyan
+      ;;
+    next)
+      color=6 # gray
+      ;;
+    *)
+      if [[ -n ${branch} ]]; then # Feature branch
+        color=4
       else
         true
       fi
@@ -68,7 +105,7 @@ ps1_git() {
   esac
 
   if [[ $color -gt 0 ]] ; then
-    printf "\033[3${color}m(git:${branch}:${sha1})\033[0m "
+	printf "\033[3${color}m(hg:${branch}:${sha1})\033[0m"
   fi
   return 0
 }
@@ -107,7 +144,7 @@ ps1_update()
     esac
   done
 
-  PS1="$(ps1_titlebar)$(ps1_identity)$(ps1_git)$(ps1_rvm)${separator}${prompt_char} "
+  PS1="$(ps1_titlebar)$(ps1_identity)$(ps1_hg)$(ps1_git)$(ps1_rvm)${separator}${prompt_char} "
 } 
 
 ps1_set()
