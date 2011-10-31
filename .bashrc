@@ -102,6 +102,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+[[ -s "$HOME/dotfiles/ps1_functions" ]] &&
+    source "$HOME/dotfiles/ps1_functions"
+
 export EDITOR=vim
 export SVN_EDITOR=$EDITOR
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -116,4 +119,3 @@ alias gd='git diff'
 alias go='git checkout'
 alias gk='gitk --all&'
 alias gx='gitx --all'
-
