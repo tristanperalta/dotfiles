@@ -91,8 +91,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f $HOME/dotfiles/bash_aliases ]; then
+    . $HOME/dotfiles/bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -110,12 +110,3 @@ export SVN_EDITOR=$EDITOR
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 stty stop ''
-
-alias gs='git status'
-alias ga='git add'
-alias gb='git branch'
-alias gc='git commit'
-alias gd='git diff'
-alias go='git checkout'
-alias gk='gitk --all&'
-alias gx='gitx --all'
