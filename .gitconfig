@@ -5,6 +5,8 @@
 	autocrlf = input
 	safecrlf = warn
 	editor = vim
+[color]
+	ui = auto
 [alias]
 	co = checkout
 	ci = commit
