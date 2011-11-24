@@ -30,14 +30,6 @@ task :install do
   end
 end
 
-desc "Uninstall dot files into user's directory"
-task :uninstall do
-  Dir['*'].each do |file|
-    next if %w{Rakefile bash}.include? file
-    remove_file file
-  end
-end
-
 def remove_file(file)
   puts "Removing file #{file}"
   system %Q{rm -rf "$HOME/.#{file}"}
