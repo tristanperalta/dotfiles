@@ -102,6 +102,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+if [ -f $HOME/.bash_aliases ]; then
+  . $HOME/.bash_aliases
+fi
+
 [[ -s "$HOME/dotfiles/bash/ps1_functions" ]] &&
     source "$HOME/dotfiles/bash/ps1_functions"
 
