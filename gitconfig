@@ -5,6 +5,7 @@
 	autocrlf = input
 	safecrlf = warn
 	editor = vim
+	excludesfile = ~/.gitignore
 [color]
 	ui = auto
 [alias]
