@@ -13,6 +13,7 @@
 	ci = commit
 	st = status
 	br = branch
+  dc = diff --cached
 	amend = commit --amend
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
