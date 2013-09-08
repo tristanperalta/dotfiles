@@ -1,20 +1,20 @@
 [user]
-	name = Tristan Peralta
-	email = tristanperalta@gmail.com
+  name = Tristan Peralta
+  email = tristanperalta@gmail.com
 [core]
-	autocrlf = input
+  autocrlf = input
 	safecrlf = warn
-	editor = vim
-	excludesfile = ~/.gitignore
+  editor = vim
+  excludesfile = ~/.gitignore
 [color]
-	ui = auto
+  ui = auto
 [alias]
-	co = checkout
-	ci = commit
-	st = status
-	br = branch
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
   dc = diff --cached
-	amend = commit --amend
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-	type = cat-file -t
-	dump = cat-file -p
+  amend = commit --amend
+  hist = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  type = cat-file -t
+  dump = cat-file -p
