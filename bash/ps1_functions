@@ -18,18 +18,18 @@ ps1_identity()
   fi
 }
 
-ps1_rvm()
-{
-    if [ -a $(pwd)/Gemfile ]; then
-        printf "$(rvm-prompt) "
-    fi
-}
+#ps1_rvm()
+#{
+    #if [ -a $(pwd)/Gemfile ]; then
+        #printf "$(rvm-prompt) "
+    #fi
+#}
 
 ps1_git() {
   local branch="" sha1="" color=""
 
   shopt -s extglob
-  
+
   command -v git >/dev/null 2>&1 || {
     printf " \033[1;37m\033[41m[git not found]\033[m "
     return 0
@@ -144,8 +144,8 @@ ps1_update()
     esac
   done
 
-  PS1="$(ps1_titlebar)$(ps1_identity)$(ps1_hg)$(ps1_git)$(ps1_rvm)${separator}${prompt_char} "
-} 
+  PS1="$(ps1_titlebar)$(ps1_identity)$(ps1_hg)$(ps1_git)${separator}${prompt_char} "
+}
 
 ps1_set()
 {

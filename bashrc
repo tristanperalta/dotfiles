@@ -111,7 +111,6 @@ fi
 
 export EDITOR=vim
 export SVN_EDITOR=$EDITOR
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 stty stop ''
 
