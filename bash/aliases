@@ -11,9 +11,10 @@ alias gk='gitk --all&'
 alias gx='gitx --all'
 
 # ruby
-alias migrate='rake db:migrate db:test:prepare'
-alias remigrate='rake db:migrate && rake db:migrate:redo && rake db:schema:dump db:test:prepare'
 alias be='bundle exec'
+alias bo='bundle open'
+alias migrate='be rake db:migrate db:test:prepare'
+alias remigrate='be rake db:migrate && be rake db:migrate:redo && be rake db:schema:dump db:test:prepare'
 
 # tmux
 alias tmux='TERM=xterm-256color tmux'
