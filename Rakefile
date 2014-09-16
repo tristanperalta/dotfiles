@@ -1,10 +1,10 @@
 require 'rake'
 
 HOME = ENV['HOME']
-ROOT_DIR = File.dirname(__FILE__)
+ROOT = File.dirname(__FILE__)
 
 def symlink_cmd(filename)
-  "ln -sf #{ROOT_DIR}/#{filename} #{HOME}/.#{filename}"
+  "ln -sf #{ROOT}/#{filename} #{HOME}/.#{filename}"
 end
 
 raw_files = %w( bashrc gemrc gitconfig hgrc tmux.conf )
@@ -12,6 +12,8 @@ raw_files = %w( bashrc gemrc gitconfig hgrc tmux.conf )
 dotfiles = raw_files.map do |file|
     "#{HOME}/.#{file}"
   end
+
+dotfiles << "#{HOME}/.config/fish/config.fish"
 
 task :default => :install
 task :install => dotfiles
@@ -41,4 +43,8 @@ end
 
 file "#{HOME}/.tmux.conf" => "tmux.conf" do
   sh symlink_cmd('tmux.conf')
+end
+
+file "#{HOME}/.config/fish/config.fish" => "config.fish" do
+  sh "ln -sf #{ROOT}/config.fish #{HOME}/.config/fish/config.fish"
 end
