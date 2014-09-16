@@ -2,14 +2,13 @@ require 'rake'
 
 HOME = ENV['HOME']
 ROOT = File.dirname(__FILE__)
+SOURCE_FILES = %w( bashrc gemrc gitconfig hgrc tmux.conf )
 
 def symlink_cmd(filename)
   "ln -sf #{ROOT}/#{filename} #{HOME}/.#{filename}"
 end
 
-raw_files = %w( bashrc gemrc gitconfig hgrc tmux.conf )
-
-dotfiles = raw_files.map do |file|
+dotfiles = SOURCE_FILES.map do |file|
     "#{HOME}/.#{file}"
   end
 
