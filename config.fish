@@ -27,6 +27,10 @@ function t
   command tmux $argv
 end
 
+function gk
+  command gitk&
+end
+
 function be
   command bundle exec $argv
 end
