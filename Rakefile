@@ -12,8 +12,6 @@ dotfiles = SOURCE_FILES.map do |file|
     "#{HOME}/.#{file}"
   end
 
-dotfiles << "#{HOME}/.config/fish/config.fish"
-
 task :default => :install
 task :install => dotfiles
 task :clean do
@@ -42,8 +40,4 @@ end
 
 file "#{HOME}/.tmux.conf" => "tmux.conf" do
   sh symlink_cmd('tmux.conf')
-end
-
-file "#{HOME}/.config/fish/config.fish" => "config.fish" do
-  sh "ln -sf #{ROOT}/config.fish #{HOME}/.config/fish/config.fish"
 end
