@@ -176,7 +176,6 @@ bindsym $mod+p mode "resize"
 
 bindsym $mod+Ctrl+Delete exec /home/tristan/dotfiles/power.sh
 
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -188,7 +187,10 @@ bindsym $mod+Shift+l exec i3lock -c 1e1e1e
 
 exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_09_00.4.iec958-stereo
 exec --no-startup-id setxkbmap -option "caps:swapescape"
-exec feh --bg-scale /home/tristan/Pictures/Wallpapers/pexels-bri-schneiter-346529.jpg
+
+# NOTE: Make a symlink with name `wallpaper` instead of changing the path to the wallpaper
+# ln -sf ~/Pictures/Wallpapers/pexels-snapwire-34950.jpg wallpaper
+exec_always feh --bg-scale /home/tristan/dotfiles/wallpaper
 
 exec /home/tristan/Telegram/Telegram
 assign [class="TelegramDesktop"] $ws7
