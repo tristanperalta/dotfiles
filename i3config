@@ -58,6 +58,7 @@ bindsym $mod+h focus left
 bindsym $mod+t focus down
 bindsym $mod+n focus up
 bindsym $mod+s focus right
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -171,8 +172,10 @@ mode "resize" {
         bindsym Escape mode "default"
         bindsym $mod+p mode "default"
 }
-
 bindsym $mod+p mode "resize"
+
+bindsym $mod+Ctrl+Delete exec /home/tristan/dotfiles/power.sh
+
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -180,12 +183,15 @@ bar {
         status_command i3status
 }
 
-exec --no-startup-id pactl set-default-sink 2
-exec --no-startup-id setxkbmap -option "caps:swapescape"
-exec /home/tristan/Telegram/Telegram
-exec feh --bg-scale /home/tristan/Pictures/pexels-bri-schneiter-346529.jpg
+bindsym Print exec flameshot
+bindsym $mod+Shift+l exec i3lock -c 1e1e1e
 
+exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_09_00.4.iec958-stereo
+exec --no-startup-id setxkbmap -option "caps:swapescape"
+exec feh --bg-scale /home/tristan/Pictures/Wallpapers/pexels-bri-schneiter-346529.jpg
+
+exec /home/tristan/Telegram/Telegram
 assign [class="TelegramDesktop"] $ws7
+
 for_window [class="Spotify"] move to workspace $ws8
 assign [class="Steam"] $ws9
-
