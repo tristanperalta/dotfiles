@@ -4,39 +4,38 @@ URxvt.font:         xft:Fira Code:size=9:antialias=true
 URxvt.boldFont:     xft:Fira Code:bold:size=9:antialias=true
 
 ! special
-URxvt.foreground:   #a7a7a7
-URxvt.background:   #1e1e1e
-URxvt.cursorColor:  #a7a7a7
+*.foreground:   #a39e9b
+*.background:   #2f1e2e
+*.cursorColor:  #a39e9b
 
 ! black
-URxvt*color0:       #1e1e1e
-URxvt*color8:       #5f5a60
+*.color0:       #2f1e2e
+*.color8:       #776e71
 
 ! red
-URxvt*color1:       #cf6a4c
-URxvt*color9:       #cf6a4c
+*.color1:       #ef6155
+*.color9:       #ef6155
 
 ! green
-URxvt*color2:       #8f9d6a
-URxvt*color10:      #8f9d6a
+*.color2:       #48b685
+*.color10:      #48b685
 
 ! yellow
-URxvt*color3:       #f9ee98
-URxvt*color11:      #f9ee98
+*.color3:       #fec418
+*.color11:      #fec418
 
 ! blue
-URxvt*color4:       #7587a6
-URxvt*color12:      #7587a6
+*.color4:       #06b6ef
+*.color12:      #06b6ef
 
 ! magenta
-URxvt*color5:       #9b859d
-URxvt*color13:      #9b859d
+*.color5:       #815ba4
+*.color13:      #815ba4
 
 ! cyan
-URxvt*color6:       #afc4db
-URxvt*color14:      #afc4db
+*.color6:       #5bc4bf
+*.color14:      #5bc4bf
 
 ! white
-URxvt*color7:       #a7a7a7
-URxvt*color15:      #ffffff
-
+*.color7:       #a39e9b
+*.color15:      #e7e9db
