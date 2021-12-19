@@ -182,11 +182,13 @@ bar {
         status_command i3status
 }
 
+bindsym $mod+F1 exec firefox
 bindsym Print exec flameshot
-bindsym $mod+Shift+l exec i3lock -c 1e1e1e
+bindsym $mod+Shift+l exec i3lock -c 2f1e2e
 
 exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_09_00.4.iec958-stereo
 exec --no-startup-id setxkbmap -option "caps:swapescape"
+exec --no-startup-id /home/tristan/dotfiles/idle.sh
 
 # NOTE: Make a symlink with name `wallpaper` instead of changing the path to the wallpaper
 # ln -sf ~/Pictures/Wallpapers/pexels-snapwire-34950.jpg wallpaper
