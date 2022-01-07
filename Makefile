@@ -5,9 +5,11 @@ TARGET_FILES = $(foreach f, $(DOT_FILES), $(addprefix $(HOME)/, $(f)))
 all: $(TARGET_FILES) $(HOME)/.config/i3/config $(HOME)/.config/i3status/config
 
 $(HOME)/.config/i3/config: i3config
+	mkdir -p $(@D)
 	ln -snf ${CURDIR}/i3config $@
 
 $(HOME)/.config/i3status/config: i3status
+	mkdir -p $(@D)
 	ln -snf ${CURDIR}/i3status $@
 
 $(HOME)/.%: %
