@@ -1,0 +1,79 @@
+- hosts: all
+  gather_facts: no
+  connection: local
+  become: yes
+
+  tasks:
+    - name: install ripgrep
+      apt: name=ripgrep
+
+    - name: check if fzf is already installed
+      stat:
+        path: /usr/local/bin/fzf
+      register: fzf_path
+
+    - name: create temp dir for fzf installation
+      tempfile:
+        prefix: fzf
+        state: directory
+      register: fzf_temp_dir
+      when: not fzf_path.stat.exists
+
+    - name: download and extract fzf
+      unarchive:
+        src: https://github.com/junegunn/fzf/releases/download/0.29.0/fzf-0.29.0-linux_amd64.tar.gz
+        remote_src: yes
+        dest: "{{ fzf_temp_dir.path }}"
+      when: not fzf_path.stat.exists
+
+    - name: install fzf
+      copy:
+        src: "{{ fzf_temp_dir.path }}/fzf"
+        mode: ugo+rwx
+        dest: /usr/local/bin/
+
+    - name: cleanup fzf
+      file:
+        path: "{{ fzf_temp_dir.path }}"
+        state: absent
+      when: not fzf_path.stat.exists
+
+
+    - name: check if exa is already installed
+      stat:
+        path: /usr/local/bin/exa
+      register: exa_path
+
+    - name: create temp dir for exa installation
+      ansible.builtin.tempfile:
+        prefix: exa
+        state: directory
+      register: exa_temp_dir
+      when: not exa_path.stat.exists
+
+    - name: download and extract exa
+      unarchive:
+        src: https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
+        remote_src: yes
+        dest: "{{ exa_temp_dir.path }}"
+      when: not exa_path.stat.exists
+
+    - name: install exa
+      copy:
+        src: "{{ exa_temp_dir.path }}/bin/exa"
+        dest: /usr/local/bin
+        mode: ugo+rwx
+      when: not exa_path.stat.exists
+
+    - name: install exa completion
+      copy:
+        src: "{{ exa_temp_dir.path }}/completions/exa.bash"
+        dest: /etc/bash_completion.d/
+      when: not exa_path.stat.exists
+
+    - name: cleanup exa
+      file:
+        path: "{{ exa_temp_dir.path }}"
+        state: absent
+      when: not exa_path.stat.exists
+
