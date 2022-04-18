@@ -52,6 +52,7 @@ return packer.startup(function(use)
       require"surround".setup {mappings_style = "surround"}
     end
   }
+  use 'christoomey/vim-tmux-navigator'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
