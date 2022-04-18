@@ -4,6 +4,12 @@ if not status_ok then
 end
 
 cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end
+  },
+  preselect = cmp.PreselectMode.Item,
   mappings = {
     ["C-o"] = cmp.mapping.select_next_item()
   },

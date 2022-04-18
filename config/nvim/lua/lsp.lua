@@ -38,9 +38,12 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-lsp.elixirls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
-}
+local servers = { 'elixirls' }
 
+for _, server in pairs(servers) do
+  lsp[server].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
+  }
+end

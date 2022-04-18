@@ -5,3 +5,6 @@ require "autopairs"
 require 'lsp'
 require 'completion'
 require 'treesitter'
+require 'telescope'
+require 'bufferline_config'
+require 'lualine_config'

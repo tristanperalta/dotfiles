@@ -43,6 +43,7 @@ return packer.startup(function(use)
   use "wbthomason/packer.nvim" -- Have packer manage itself
 
   use "windwp/nvim-autopairs"
+  use 'nvim-lualine/lualine.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -58,6 +59,13 @@ return packer.startup(function(use)
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   }
+
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
+
+  use 'akinsho/bufferline.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
