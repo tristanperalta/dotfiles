@@ -10,7 +10,9 @@ local options = {
   swapfile = false,
   history = 1000,
   completeopt = { "menu", "menuone", "noselect" },
-  timeoutlen = 300
+  timeoutlen = 300,
+  list = true,
+  listchars = vim.opt.listchars:append({ eol = '↴', trail = '⋅', extends = '#'})
 }
 
 for k, v in pairs(options) do
