@@ -5,6 +5,13 @@
 - NerdFonts
 - ElixirLS
 
+## Instruction
+
+Install LSP for html,css,javascrip
+```sh
+npm i -g vscode-langservers-extracted
+```
+
 ## Installations
 
 - [Exa](https://the.exa.website/) - drop-in replacement for ls

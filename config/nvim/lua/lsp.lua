@@ -36,14 +36,16 @@ if not status_ok then
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-local servers = { 'elixirls' }
+lsp.elixirls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
+}
 
-for _, server in pairs(servers) do
-  lsp[server].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
-  }
-end
+lsp.html.setup {
+  filetypes = { 'html', 'heex', 'eex' },
+  capabilities = capabilities
+}
