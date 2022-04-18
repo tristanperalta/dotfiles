@@ -9,7 +9,8 @@ local options = {
   hlsearch = true,
   swapfile = false,
   history = 1000,
-  completeopt = { "menu", "menuone", "noselect" }
+  completeopt = { "menu", "menuone", "noselect" },
+  timeoutlen = 300
 }
 
 for k, v in pairs(options) do

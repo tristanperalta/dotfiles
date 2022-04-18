@@ -42,9 +42,16 @@ packer.init {
 return packer.startup(function(use)
   use "wbthomason/packer.nvim" -- Have packer manage itself
 
-  use "windwp/nvim-autopairs"
+  use 'windwp/nvim-autopairs'
   use 'nvim-lualine/lualine.nvim'
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
+  use 'folke/which-key.nvim'
+  use {
+    "ur4ltz/surround.nvim",
+    config = function()
+      require"surround".setup {mappings_style = "surround"}
+    end
+  }
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -57,7 +64,7 @@ return packer.startup(function(use)
   
   -- Treesitter
   use {
-    "nvim-treesitter/nvim-treesitter",
+    'nvim-treesitter/nvim-treesitter',
     run = ":TSUpdate",
   }
 
