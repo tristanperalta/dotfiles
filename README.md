@@ -1,12 +1,16 @@
 # dotfiles
 
+## Requirements
+- Neovim 0.6+
+- NerdFonts
+- ElixirLS
+
 ## Installations
 
 - [Exa](https://the.exa.website/) - drop-in replacement for ls
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - replacement for grep
 - [xidlehook](https://github.com/jD91mZM2/xidlehook)
 - [fzf](https://github.com/junegunn/fzf)
-- NerdFonts (optional)
 
 ## Issues
 
