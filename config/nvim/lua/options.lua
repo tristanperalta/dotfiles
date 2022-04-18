@@ -5,7 +5,6 @@ local options = {
   softtabstop = 2,
   shiftwidth = 2,
   expandtab = true,
-  smartindent = true,
   mouse = "a",
   hlsearch = true,
   swapfile = false,

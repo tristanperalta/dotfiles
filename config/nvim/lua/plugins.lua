@@ -44,6 +44,7 @@ return packer.startup(function(use)
 
   use "windwp/nvim-autopairs"
   use 'nvim-lualine/lualine.nvim'
+  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -65,7 +66,7 @@ return packer.startup(function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
 
-  use 'akinsho/bufferline.nvim'
+  use {'akinsho/bufferline.nvim', tag = "*", requires = 'kyazdani42/nvim-web-devicons'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

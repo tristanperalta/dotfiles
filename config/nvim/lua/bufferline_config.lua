@@ -8,6 +8,7 @@ bufferline.setup {
     mode = "buffers",
     numbers = "none",
     close_command = "bdelete! %d",
-    middle_mouse_command = "bdelete! %d"
+    middle_mouse_command = "bdelete! %d",
+    offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
   }
 }

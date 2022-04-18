@@ -18,3 +18,6 @@ keymap("", "<leader>d", ":bdel<cr>", opts)
 -- telescope
 keymap("n", "<leader>o", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<leader>a", "<cmd>Telescope live_grep<cr>", opts)
+
+-- nvim tree
+keymap("n", "<leader>t", ":NvimTreeToggle<cr>", opts)
