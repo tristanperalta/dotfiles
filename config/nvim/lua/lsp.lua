@@ -5,7 +5,10 @@ end
 
 local on_attach = function(client, bufnr)
   local function keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
   local opts = { noremap = true, silent = true }
+
+  set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -26,7 +29,18 @@ local on_attach = function(client, bufnr)
   keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+-- for cmp
+local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if not status_ok then
+  return
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+
 lsp.elixirls.setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
 }
+
