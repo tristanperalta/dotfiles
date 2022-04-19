@@ -43,6 +43,7 @@ return packer.startup(function(use)
   use "wbthomason/packer.nvim" -- Have packer manage itself
 
   use 'kyazdani42/nvim-web-devicons'
+  use 'EdenEast/nightfox.nvim'
 
   use 'windwp/nvim-autopairs'
   use 'nvim-lualine/lualine.nvim'
@@ -66,7 +67,7 @@ return packer.startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
-  
+
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
   use 'windwp/nvim-ts-autotag'
