@@ -1,7 +1,9 @@
+env:
+  TERM: xterm-256color
 window:
   dimensions:
-    columns: 150
-    lines: 55
+    columns: 200
+    lines: 60
 font:
   normal:
     family: Hack Nerd Font
