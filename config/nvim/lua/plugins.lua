@@ -41,7 +41,7 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
   use "wbthomason/packer.nvim" -- Have packer manage itself
-
+  use 'nvim-lua/plenary.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'EdenEast/nightfox.nvim'
 
@@ -72,11 +72,8 @@ return packer.startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
   use 'windwp/nvim-ts-autotag'
 
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
-
+  use 'nvim-telescope/telescope.nvim'
+  use 'jose-elias-alvarez/null-ls.nvim'
   use {'akinsho/bufferline.nvim', tag = "*" }
 
   -- Automatically set up your configuration after cloning packer.nvim
