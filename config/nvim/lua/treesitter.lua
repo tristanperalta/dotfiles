@@ -6,8 +6,9 @@ end
 treesitter.setup {
   ensure_installed = "all",
   sync_install = true,
-  autopairs = {
-    enable = true
+  autotag = { 
+    enable = true,
+    filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
   },
   highlight = {
     enable = true

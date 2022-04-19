@@ -68,10 +68,8 @@ return packer.startup(function(use)
   use 'rafamadriz/friendly-snippets'
   
   -- Treesitter
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ":TSUpdate",
-  }
+  use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
+  use 'windwp/nvim-ts-autotag'
 
   use {
     'nvim-telescope/telescope.nvim',
