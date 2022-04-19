@@ -100,3 +100,6 @@ cmp.setup {
 }
 
 require("luasnip.loaders.from_vscode").lazy_load()
+luasnip.filetype_extend('heex', {'html', 'elixir'})
+luasnip.filetype_extend('leex', {'html', 'elixir'})
+luasnip.filetype_extend('eex', {'html', 'elixir'})
