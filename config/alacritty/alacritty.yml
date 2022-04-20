@@ -3,8 +3,8 @@ env:
 
 window:
   dimensions:
-    columns: 200
-    lines: 60
+    columns: 150
+    lines: 65
 
 font:
   normal:
