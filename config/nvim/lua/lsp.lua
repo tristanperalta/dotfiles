@@ -45,6 +45,11 @@ lsp.elixirls.setup {
   cmd = { "/home/tristan/sources/elixir-ls/rel/language_server.sh" }
 }
 
+lsp.rust_analyzer.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
 lsp.html.setup {
   filetypes = { 'html', 'heex', 'eex' },
   capabilities = capabilities
