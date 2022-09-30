@@ -6,7 +6,7 @@ end
 null_ls.setup {
   sources = {
     null_ls.builtins.formatting.rustywind.with({
-      filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte", "html", "heex", "leex", "eex" }
+      filetypes = { "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte", "html", "heex", "leex", "eex" }
     })
   }
 }
