@@ -50,26 +50,8 @@ cmp.setup {
   mapping = cmp.mapping.preset.insert({
     ['<C-Space'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i' , 's' })
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -99,7 +81,6 @@ cmp.setup {
   }
 }
 
-require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.filetype_extend('heex', {'html', 'elixir'})
 luasnip.filetype_extend('leex', {'html', 'elixir'})
 luasnip.filetype_extend('eex', {'html', 'elixir'})

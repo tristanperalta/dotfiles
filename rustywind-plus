@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rustywind $@
+rustywind --custom-regex "@apply ([_a-zA\.-Z0-9\s\-:\[\]]+);" $@
+rustywind --custom-regex "class:\s* \"(.+)\"" $@
