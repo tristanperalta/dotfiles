@@ -21,6 +21,3 @@ for k, v in pairs(options) do
 end
 
 vim.cmd('colorscheme nightfox')
-
-vim.api.nvim_exec([[ autocmd BufWritePre * lua vim.lsp.buf.formatting() ]], false)
-vim.api.nvim_exec([[ autocmd BufWritePre * %s/\s\+$//e ]], false)

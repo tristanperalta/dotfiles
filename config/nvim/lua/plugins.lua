@@ -58,6 +58,8 @@ return packer.startup(function(use)
 
   -- LSP
   use 'neovim/nvim-lspconfig'
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
 
   -- Autocompletion
   use 'hrsh7th/nvim-cmp'
