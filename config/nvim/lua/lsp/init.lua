@@ -23,7 +23,7 @@ if not status_ok then
 end
 
 for _, server in pairs(servers) do
-  opts = {
+  local opts = {
     on_attach = require("lsp.handlers").on_attach,
     capabilities = require("lsp.handlers").capabilities
   }
@@ -34,6 +34,6 @@ for _, server in pairs(servers) do
   if require_ok then
     opts = vim.tbl_deep_extend("force", conf_opts, opts)
   end
-  
+
   lspconfig[server].setup(opts)
 end
