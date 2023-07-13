@@ -7,7 +7,7 @@ local servers = {
   "bashls",
   "cssls",
   "tsserver",
-  "sumneko_lua",
+  "lua_ls",
   "pyright",
   "rust_analyzer"
 }
