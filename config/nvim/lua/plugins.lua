@@ -48,12 +48,15 @@ return packer.startup(function(use)
   use 'nvim-lualine/lualine.nvim'
   use { 'kyazdani42/nvim-tree.lua'}
   use 'folke/which-key.nvim'
-  use {
-    "ur4ltz/surround.nvim",
+  use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
-      require"surround".setup {mappings_style = "surround"}
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
     end
-  }
+})
   use 'christoomey/vim-tmux-navigator'
 
   -- LSP
