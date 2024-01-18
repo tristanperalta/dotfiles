@@ -1,6 +1,6 @@
 [user]
-  name = Tristan Peralta
-  email = tristanperalta@protonmail.com
+	name = Tristan Peralta
+	email = tristanperalta@protonmail.com
 [core]
   autocrlf = input
 	safecrlf = warn
@@ -20,3 +20,5 @@
   dump = cat-file -p
 [push]
 	default = simple
+[init]
+	defaultBranch = main
