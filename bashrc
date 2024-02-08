@@ -116,4 +116,3 @@ stty stop ''
 
 alias gvim='UBUNTU_MENUPROXY= gvim'
 [ -f $HOME/.bash.local ] && source $HOME/.bash.local
-. "$HOME/.cargo/env"

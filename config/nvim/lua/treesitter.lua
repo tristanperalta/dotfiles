@@ -4,9 +4,23 @@ if not status_ok then
 end
 
 treesitter.setup {
-  ensure_installed = {"c", "lua", "elixir", "css", "typescript", "bash", "eex", "rust", "javascript", "python"},
+  ensure_installed = {
+    "bash",
+    "c",
+    "css",
+    "eex",
+    "elixir",
+    "erlang",
+    "heex",
+    "html",
+    "javascript",
+    "lua",
+    "python",
+    "rust",
+    "typescript",
+  },
   sync_install = false,
-  autotag = { 
+  autotag = {
     enable = true,
     filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
   },
@@ -14,7 +28,7 @@ treesitter.setup {
     enable = true
   },
   indent = { enable = true },
-  context_commentstring = { 
+  context_commentstring = {
     enable = true,
     enable_autocmd = false
   }
