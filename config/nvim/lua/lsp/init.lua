@@ -6,7 +6,7 @@ local servers = {
   "elixirls",
   "bashls",
   "cssls",
-  "tsserver",
+  "ts_ls",
   "lua_ls",
   "pyright",
   "rust_analyzer"
