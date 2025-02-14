@@ -20,4 +20,4 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
-vim.cmd('colorscheme nightfox')
+vim.cmd('colorscheme nightfox') 

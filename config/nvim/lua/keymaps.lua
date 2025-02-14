@@ -3,22 +3,15 @@ vim.g.mapleader = "-"
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = false }
 
-keymap("n", "/", "/\\v", opts)
-keymap("v", "/", "/\\v", opts)
+vim.keymap.set("n", "/", "/\\v", opts)
+vim.keymap.set("v", "/", "/\\v", opts)
 
-keymap("", "<C-s>", ":w<cr>", opts)
+vim.keymap.set("", "<C-s>", ":w<cr>", opts)
 
-keymap("", "<leader><space>", ":nohl<cr>", opts)
+vim.keymap.set("", "<leader><space>", ":nohl<cr>", opts)
 
 -- buffer navigation
-keymap("", "<C-n>", ":bnext<cr>", opts)
-keymap("", "<C-p>", ":bprev<cr>", opts)
-keymap("", "<leader>d", ":bdel<cr>", opts)
+vim.keymap.set("", "<C-n>", ":bnext<cr>", opts)
+vim.keymap.set("", "<C-p>", ":bprev<cr>", opts)
+vim.keymap.set("", "<leader>d", ":bdel<cr>", opts)
 
--- telescope
-keymap("n", "<leader>o", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>a", "<cmd>Telescope live_grep<cr>", opts)
-keymap("n", "<leader>b", "<cmd>Telescope buffers<cr>", opts)
-
--- nvim tree
-keymap("n", "<leader>t", ":NvimTreeToggle<cr>", opts)
