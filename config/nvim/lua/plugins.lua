@@ -109,6 +109,7 @@ return {
     end,
     dependencies = {
       { "folke/neodev.nvim", opts = {} },
+      { "hrsh7th/cmp-nvim-lsp", opts = {} },
       {
         "williamboman/mason.nvim",
         cmd = {
