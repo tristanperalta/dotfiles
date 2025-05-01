@@ -99,12 +99,12 @@ return {
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = true
   },
+  {"hrsh7th/nvim-cmp"},
   {"neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
       local lspconfig = require("lspconfig")
     end,
     dependencies = {
@@ -129,7 +129,6 @@ return {
           local lspconfig = require("lspconfig")
 
           require("lspconfig.ui.windows").default_options.border = "rounded"
-
 
           mason.setup({
             ui = {
