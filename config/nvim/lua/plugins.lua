@@ -41,9 +41,7 @@ return {
           enable = true,
           filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
         },
-        highlight = {
-          enable = true
-        },
+        highlight = { enable = true },
         indent = { enable = true },
         context_commentstring = {
           enable = true,
@@ -155,6 +153,18 @@ return {
 
                 lspconfig[server_name].setup(opts)
               end
+            end,
+            ["elixirls"] = function()
+              lspconfig.elixirls.setup {
+                capabilities = require('cmp_nvim_lsp').default_capabilities(),
+                settings = {
+                  elixirLS = {
+                    dialyzerEnabled = true,
+                    fetchDeps = false,
+                    enableTestLenses = true,
+                  }
+                }
+              }
             end,
           })
         end,
