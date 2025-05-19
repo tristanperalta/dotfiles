@@ -106,6 +106,7 @@ return {
       local lspconfig = require("lspconfig")
     end,
     dependencies = {
+      {'hrsh7th/nvim-cmp'},
       { "folke/neodev.nvim", opts = {} },
       { "hrsh7th/cmp-nvim-lsp", opts = {} },
       {
