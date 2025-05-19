@@ -105,16 +105,20 @@ return {
   },
   {"hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-nvim-lsp" },
+  },
+  {"neovim/nvim-lspconfig",
     config = function()
       local cmp = require("cmp")
       cmp.setup({
-        sources = {
-          name = "nvim_lsp"
-        }
+        sources = { name = "nvim_lsp" }
+      })
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+      require('lspconfig')['elixirls'].setup({
+        capabilities = capabilities
       })
     end
   },
-  {"neovim/nvim-lspconfig"},
   {"mason-org/mason.nvim", config = true },
   {"mason-org/mason-lspconfig.nvim", config = true }
 }
