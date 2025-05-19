@@ -1,12 +1,18 @@
 return {
-  {"EdenEast/nightfox.nvim"},
+  {"EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme nightfox]])
+    end
+  },
   {"nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    "MunifTanjim/nui.nvim",
-    -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     keys = {
       {"<leader>t", "<cmd>Neotree toggle left<cr>"},
@@ -21,20 +27,20 @@ return {
 
       configs.setup({
         ensure_installed = {
-        "bash",
-        "c",
-        "css",
-        "eex",
-        "elixir",
-        "erlang",
-        "heex",
-        "html",
-        "javascript",
-        "lua",
-        "python",
-        "rust",
-        "sql",
-        "typescript",
+          "bash",
+          "c",
+          "css",
+          "eex",
+          "elixir",
+          "erlang",
+          "heex",
+          "html",
+          "javascript",
+          "lua",
+          "python",
+          "rust",
+          "sql",
+          "typescript",
         },
         sync_install = false,
         autotag = {
@@ -97,79 +103,18 @@ return {
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = true
   },
-  {"hrsh7th/nvim-cmp"},
-  {"neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+  {"hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-nvim-lsp" },
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      local lspconfig = require("lspconfig")
-    end,
-    dependencies = {
-      {'hrsh7th/nvim-cmp'},
-      { "folke/neodev.nvim", opts = {} },
-      { "hrsh7th/cmp-nvim-lsp", opts = {} },
-      {
-        "williamboman/mason.nvim",
-        cmd = {
-          "Mason",
-          "MasonInstall",
-          "MasonUninstall",
-          "MasonUninstallAll",
-          "MasonLog",
-        }, -- Package Manager
-        dependencies = {
-          { "williamboman/mason-lspconfig.nvim" },
-          { "stevearc/dressing.nvim" },
-        },
-        config = function()
-          local mason = require("mason")
-          local mason_lspconfig = require("mason-lspconfig")
-          local lspconfig = require("lspconfig")
-
-          require("lspconfig.ui.windows").default_options.border = "rounded"
-
-          mason.setup({
-            ui = {
-              -- Whether to automatically check for new versions when opening the :Mason window.
-              check_outdated_packages_on_open = false,
-              border = "single",
-              icons = {
-                package_installed = "",
-                package_pending = "",
-                package_uninstalled = "󰚌",
-              },
-            },
-          })
-
-          mason_lspconfig.setup_handlers({
-            function(server_name)
-              if server_name ~= "jdtls" then
-                local opts = {}
-
-                local require_ok, server = pcall(require, "plugins.lsp.settings." .. server_name)
-                if require_ok then
-                  opts = vim.tbl_deep_extend("force", server, opts)
-                end
-
-                lspconfig[server_name].setup(opts)
-              end
-            end,
-            ["elixirls"] = function()
-              lspconfig.elixirls.setup {
-                capabilities = require('cmp_nvim_lsp').default_capabilities(),
-                settings = {
-                  elixirLS = {
-                    dialyzerEnabled = true,
-                    fetchDeps = false,
-                    enableTestLenses = true,
-                  }
-                }
-              }
-            end,
-          })
-        end,
-      },
-    },
-  }
+      local cmp = require("cmp")
+      cmp.setup({
+        sources = {
+          name = "nvim_lsp"
+        }
+      })
+    end
+  },
+  {"neovim/nvim-lspconfig"},
+  {"mason-org/mason.nvim", config = true },
+  {"mason-org/mason-lspconfig.nvim", config = true }
 }
