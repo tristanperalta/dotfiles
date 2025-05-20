@@ -135,5 +135,26 @@ return {
         automatic_enable = servers
       })
     end
+  },
+  {'olimorris/codecompanion.nvim',
+    opts = {},
+    dependencies = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('codecompanion').setup({
+        strategies = { chat = { adapter = 'ollama' } },
+        adapters = {
+          ollama = function()
+            return require('codecompanion.adapters').extend('ollama', {
+              schema = { model = 'deepseek-r1:14b' }
+            })
+          end
+        },
+        opts = {
+          log_level = 'DEBUG'
+        }
+      })
+    end
   }
 }
