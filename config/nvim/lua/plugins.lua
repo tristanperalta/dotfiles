@@ -1,88 +1,139 @@
-local fn = vim.fn
--- Automatically install packer
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
-end
-
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
-
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
--- Have packer use a popup window
-packer.init {
-  display = {
-    open_fn = function()
-      return require("packer.util").float { border = "rounded" }
-    end,
-  },
-}
-
--- Install your plugins here
-return packer.startup(function(use)
-  use "wbthomason/packer.nvim" -- Have packer manage itself
-  use 'nvim-lua/plenary.nvim'
-  use 'kyazdani42/nvim-web-devicons'
-  use 'EdenEast/nightfox.nvim'
-
-  use 'windwp/nvim-autopairs'
-  use 'nvim-lualine/lualine.nvim'
-  use { 'kyazdani42/nvim-tree.lua'}
-  use 'folke/which-key.nvim'
-  use({
-    "kylechui/nvim-surround",
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+return {
+  {"EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
     config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
+      vim.cmd([[colorscheme nightfox]])
     end
-})
-  use 'christoomey/vim-tmux-navigator'
+  },
+  {"nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    keys = {
+      {"<leader>t", "<cmd>Neotree toggle left<cr>"},
+      {"<leader>b", "<cmd>Neotree toggle buffers right<cr>"},
+    }
+  },
+  {"nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    lazy = false,
+    config = function ()
+      local configs = require("nvim-treesitter.configs")
 
-  -- LSP
-  use 'neovim/nvim-lspconfig'
-  use "williamboman/mason.nvim"
-  use "williamboman/mason-lspconfig.nvim"
+      configs.setup({
+        ensure_installed = {
+          "bash",
+          "c",
+          "css",
+          "eex",
+          "elixir",
+          "erlang",
+          "heex",
+          "html",
+          "javascript",
+          "lua",
+          "python",
+          "rust",
+          "sql",
+          "typescript",
+        },
+        sync_install = false,
+        autotag = {
+          enable = true,
+          filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
+        },
+        highlight = { enable = true },
+        indent = { enable = true },
+        context_commentstring = {
+          enable = true,
+          enable_autocmd = false
+        }
+      })
+    end
+  },
+  {"nvim-telescope/telescope.nvim",
+    keys = {
+      {"<leader>o", "<cmd>Telescope find_files<cr>"},
+    },
+    config = true
+  },
+  {
+  'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+  },
+  {
+  'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = true
+  },
+  {
+  "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+  },
+  {"folke/which-key.nvim",
+    event = "VeryLazy"
+  },
+  {
+  "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+      "TmuxNavigatorProcessList",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
+  {'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = true
+  },
+  {"hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    event = 'InsertEnter',
+    opts = function()
+      local cmp = require('cmp')
+      return {
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' }
+        })
+      }
+    end
+  },
+  {"mason-org/mason-lspconfig.nvim",
+    dependencies = {
+      {"mason-org/mason.nvim", opts = {}},
+      "neovim/nvim-lspconfig"
+    },
+    config = function()
+      -- for the list of LSP servers see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+      local servers = {
+        "elixirls",
+        "ts_ls",
+        "lua_ls",
+        "pyright",
+        "cssls",
+      }
 
-  -- Autocompletion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip'
-
-  -- Treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
-  use 'windwp/nvim-ts-autotag'
-
-  use 'nvim-telescope/telescope.nvim'
-  use 'jose-elias-alvarez/null-ls.nvim'
-  use {'akinsho/bufferline.nvim', tag = "*" }
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
-end)
-
+      require('mason-lspconfig').setup({
+        ensure_installed = servers,
+        automatic_enable = servers
+      })
+    end
+  }
+}

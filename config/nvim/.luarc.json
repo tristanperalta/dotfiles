@@ -1,0 +1,27 @@
+{
+    "workspace.library": [
+        "/home/tristan/.local/share/nvim/lazy/neodev.nvim/types/stable",
+        "/usr/share/nvim/runtime/lua",
+        "/home/tristan/.local/share/nvim/lazy/bufferline.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/nvim-lspconfig/lua",
+        "/home/tristan/.local/share/nvim/lazy/lazy.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/neodev.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/nvim-treesitter/lua",
+        "/home/tristan/.local/share/nvim/lazy/cmp-nvim-lsp/lua",
+        "/home/tristan/.local/share/nvim/lazy/nvim-web-devicons/lua",
+        "/home/tristan/.local/share/nvim/lazy/telescope.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/nui.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/mason-lspconfig.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/dressing.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/nvim-autopairs/lua",
+        "/home/tristan/.local/share/nvim/lazy/lualine.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/mason.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/nvim-surround/lua",
+        "/home/tristan/.local/share/nvim/lazy/nightfox.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/neo-tree.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/which-key.nvim/lua",
+        "/home/tristan/.local/share/nvim/lazy/plenary.nvim/lua",
+        "/home/tristan/dotfiles/config/nvim/lua",
+        "${3rd}/luv/library"
+    ]
+}
