@@ -105,20 +105,35 @@ return {
   },
   {"hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-nvim-lsp" },
-  },
-  {"neovim/nvim-lspconfig",
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        sources = { name = "nvim_lsp" }
-      })
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-      require('lspconfig')['elixirls'].setup({
-        capabilities = capabilities
-      })
+    event = 'InsertEnter',
+    opts = function()
+      local cmp = require('cmp')
+      return {
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' }
+        })
+      }
     end
   },
-  {"mason-org/mason.nvim", config = true },
-  {"mason-org/mason-lspconfig.nvim", config = true }
+  {"mason-org/mason-lspconfig.nvim",
+    dependencies = {
+      {"mason-org/mason.nvim", opts = {}},
+      "neovim/nvim-lspconfig"
+    },
+    config = function()
+      -- for the list of LSP servers see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+      local servers = {
+        "elixirls",
+        "ts_ls",
+        "lua_ls",
+        "pyright",
+        "cssls",
+      }
+
+      require('mason-lspconfig').setup({
+        ensure_installed = servers,
+        automatic_enable = servers
+      })
+    end
+  }
 }
