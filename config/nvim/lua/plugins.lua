@@ -136,6 +136,17 @@ return {
       })
     end
   },
+  {"ravitemer/mcphub.nvim",
+    dependencies = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require("mcphub").setup({
+        cmd = 'node',
+        cmdArgs = {'/home/tristan/sources/mcp-hub/src/utils/cli.js'}
+      })
+    end
+  },
   {'olimorris/codecompanion.nvim',
     opts = {},
     dependencies = {
@@ -151,10 +162,17 @@ return {
             })
           end
         },
-        opts = {
-          log_level = 'DEBUG'
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              show_results_in_chat = true,
+              make_vars = true,
+              make_slash_commands = true
+            }
+          }
         }
       })
     end
-  }
+  },
 }
