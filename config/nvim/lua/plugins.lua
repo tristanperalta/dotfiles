@@ -53,6 +53,7 @@ return {
     }
   },
   {"nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       {"<leader>o", "<cmd>Telescope find_files<cr>"},
     },
