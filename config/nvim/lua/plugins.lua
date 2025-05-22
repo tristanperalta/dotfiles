@@ -22,39 +22,35 @@ return {
   {"nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     lazy = false,
-    config = function ()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = {
-          "bash",
-          "c",
-          "css",
-          "eex",
-          "elixir",
-          "erlang",
-          "heex",
-          "html",
-          "javascript",
-          "lua",
-          "python",
-          "rust",
-          "sql",
-          "typescript",
-        },
-        sync_install = false,
-        autotag = {
-          enable = true,
-          filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
-        },
-        highlight = { enable = true },
-        indent = { enable = true },
-        context_commentstring = {
-          enable = true,
-          enable_autocmd = false
-        }
-      })
-    end
+    opts =  {
+      ensure_installed = {
+        "bash",
+        "c",
+        "css",
+        "eex",
+        "elixir",
+        "erlang",
+        "heex",
+        "html",
+        "javascript",
+        "lua",
+        "python",
+        "rust",
+        "sql",
+        "typescript",
+      },
+      sync_install = false,
+      autotag = {
+        enable = true,
+        filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
+      },
+      highlight = { enable = true },
+      indent = { enable = true },
+      context_commentstring = {
+        enable = true,
+        enable_autocmd = false
+      }
+    }
   },
   {"nvim-telescope/telescope.nvim",
     keys = {
