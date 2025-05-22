@@ -50,12 +50,14 @@ return {
         enable = true,
         enable_autocmd = false
       }
-    }
+    },
+    config = function(_, opts) require('nvim-treesitter.configs').setup(opts) end
   },
   {"nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       {"<leader>o", "<cmd>Telescope find_files<cr>"},
+      {"<leader>a", "<cmd>Telescope live_grep<cr>"},
     },
     config = true
   },
