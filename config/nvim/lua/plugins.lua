@@ -17,7 +17,17 @@ return {
     keys = {
       {"<leader>t", "<cmd>Neotree toggle left<cr>"},
       {"<leader>b", "<cmd>Neotree toggle buffers right<cr>"},
-    }
+    },
+    opts = {
+      filesystem = {
+        follow_current_file = {
+          enabled = true
+        }
+      }
+    },
+    config = function(_, opts)
+      require('neo-tree').setup(opts)
+    end
   },
   {"nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -105,8 +115,6 @@ return {
   {'saghen/blink.cmp',
     -- use a release tag to download pre-built binaries
     version = '1.*',
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
     opts = {
       -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
       -- 'super-tab' for mappings similar to vscode (tab to accept)
