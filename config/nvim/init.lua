@@ -73,3 +73,8 @@ vim.keymap.set("", "<leader><space>", ":nohl<cr>", opts)
 vim.keymap.set("", "<C-n>", ":bnext<cr>", opts)
 vim.keymap.set("", "<C-p>", ":bprev<cr>", opts)
 vim.keymap.set("", "<leader>d", ":bdel<cr>", opts)
+
+vim.keymap.set('n', 'gK', function()
+  local new_config = not vim.diagnostic.config().virtual_lines
+  vim.diagnostic.config({ virtual_lines = new_config })
+end, { desc = 'Toggle diagnostic virtual_lines' })
