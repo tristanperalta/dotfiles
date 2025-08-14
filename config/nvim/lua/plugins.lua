@@ -171,6 +171,71 @@ return {
         ensure_installed = servers,
         automatic_enable = servers,
       }
+    end,
+    config = function(_, opts)
+      require("mason-lspconfig").setup(opts)
+      
+      local lspconfig = require("lspconfig")
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      
+      -- Configure other LSP servers (ElixirLS handled by elixir-tools.nvim)
+      local servers_to_setup = { "ts_ls", "lua_ls", "pyright", "cssls" }
+      for _, server_name in ipairs(servers_to_setup) do
+        lspconfig[server_name].setup({
+          capabilities = capabilities,
+        })
+      end
     end
-  }
+  },
+  -- Enhanced Elixir development with elixir-tools.nvim
+  {
+    "elixir-tools/elixir-tools.nvim",
+    version = "*",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local elixir = require("elixir")
+      local elixirls = require("elixir.elixirls")
+
+      elixir.setup {
+        nextls = { enable = false },
+        elixirls = {
+          enable = true,
+          cmd = vim.fn.expand("~/.local/share/nvim/mason/bin/elixir-ls"),
+          settings = elixirls.settings {
+            dialyzerEnabled = true,
+            enableTestLenses = true,
+            suggestSpecs = true,
+            fetchDeps = false,
+            signatureAfterComplete = true,
+            mixEnv = "dev",
+          },
+          on_attach = function(client, bufnr)
+            -- Enable auto-format on save for Elixir files
+            if client.supports_method("textDocument/formatting") then
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                callback = function()
+                  vim.lsp.buf.format({ timeout_ms = 2000 })
+                end,
+              })
+            end
+            
+            -- Elixir-specific keymaps
+            local opts = { buffer = bufnr, silent = true }
+            vim.keymap.set("n", "<leader>fp", ":ElixirFromPipe<CR>", opts)
+            vim.keymap.set("n", "<leader>tp", ":ElixirToPipe<CR>", opts)
+            vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<CR>", opts)
+            vim.keymap.set("n", "<leader>et", ":ElixirRunTests<CR>", opts)
+          end,
+          capabilities = require('blink.cmp').get_lsp_capabilities(),
+        },
+        projectionist = {
+          enable = true
+        },
+      }
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
 }
