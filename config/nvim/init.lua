@@ -74,6 +74,42 @@ vim.keymap.set("", "<C-n>", ":bnext<cr>", opts)
 vim.keymap.set("", "<C-p>", ":bprev<cr>", opts)
 vim.keymap.set("", "<leader>d", ":bdel<cr>", opts)
 
+-- LSP keymaps (applied globally)
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, { desc = 'Format buffer' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic' })
+
+-- Telescope LSP keymaps
+vim.keymap.set('n', '<leader>ls', '<cmd>Telescope lsp_document_symbols<cr>', { desc = 'Document symbols' })
+vim.keymap.set('n', '<leader>lS', '<cmd>Telescope lsp_workspace_symbols<cr>', { desc = 'Workspace symbols' })
+vim.keymap.set('n', '<leader>lr', '<cmd>Telescope lsp_references<cr>', { desc = 'References' })
+vim.keymap.set('n', '<leader>ld', '<cmd>Telescope diagnostics<cr>', { desc = 'Diagnostics' })
+
+-- Enhanced diagnostic configuration
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●',
+    source = 'if_many',
+  },
+  float = {
+    source = 'always',
+    border = 'rounded',
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '✘',
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.HINT] = '⚑',
+      [vim.diagnostic.severity.INFO] = '»',
+    },
+  },
+  severity_sort = true,
+  update_in_insert = false,
+})
+
 vim.keymap.set('n', 'gK', function()
   local new_config = not vim.diagnostic.config().virtual_lines
   vim.diagnostic.config({ virtual_lines = new_config })

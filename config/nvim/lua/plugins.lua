@@ -161,12 +161,27 @@ return {
     },
     opts = function()
       local servers = {
-        "elixirls",
+        "expert",
         "ts_ls",
         "lua_ls",
         "pyright",
         "cssls",
+        "jsonls",
+        "yamlls",
       }
+
+      local formatters_and_linters = {
+        "prettier",      -- JS/TS/JSON/YAML formatter
+        "black",         -- Python formatter
+        "isort",         -- Python import sorter
+        "eslint_d",      -- JS/TS linter (fast daemon version)
+        "flake8",        -- Python linter
+      }
+      -- Combine servers and tools for Mason installation
+      local all_tools = {}
+      vim.list_extend(all_tools, servers)
+      vim.list_extend(all_tools, formatters_and_linters)
+
       return {
         ensure_installed = servers,
         automatic_enable = servers,
@@ -174,68 +189,116 @@ return {
     end,
     config = function(_, opts)
       require("mason-lspconfig").setup(opts)
-      
-      local lspconfig = require("lspconfig")
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
-      
-      -- Configure other LSP servers (ElixirLS handled by elixir-tools.nvim)
-      local servers_to_setup = { "ts_ls", "lua_ls", "pyright", "cssls" }
-      for _, server_name in ipairs(servers_to_setup) do
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end
-    end
-  },
-  -- Enhanced Elixir development with elixir-tools.nvim
-  {
-    "elixir-tools/elixir-tools.nvim",
-    version = "*",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local elixir = require("elixir")
-      local elixirls = require("elixir.elixirls")
 
-      elixir.setup {
-        nextls = { enable = false },
-        elixirls = {
-          enable = true,
-          cmd = vim.fn.expand("~/.local/share/nvim/mason/bin/elixir-ls"),
-          settings = elixirls.settings {
-            dialyzerEnabled = true,
-            enableTestLenses = true,
-            suggestSpecs = true,
-            fetchDeps = false,
-            signatureAfterComplete = true,
-            mixEnv = "dev",
-          },
-          on_attach = function(client, bufnr)
-            -- Enable auto-format on save for Elixir files
-            if client.supports_method("textDocument/formatting") then
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                buffer = bufnr,
-                callback = function()
-                  vim.lsp.buf.format({ timeout_ms = 2000 })
-                end,
-              })
-            end
-            
-            -- Elixir-specific keymaps
-            local opts = { buffer = bufnr, silent = true }
-            vim.keymap.set("n", "<leader>fp", ":ElixirFromPipe<CR>", opts)
-            vim.keymap.set("n", "<leader>tp", ":ElixirToPipe<CR>", opts)
-            vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<CR>", opts)
-            vim.keymap.set("n", "<leader>et", ":ElixirRunTests<CR>", opts)
-          end,
-          capabilities = require('blink.cmp').get_lsp_capabilities(),
-        },
-        projectionist = {
-          enable = true
-        },
+      -- Install additional formatters and linters via Mason
+      local mason_registry = require("mason-registry")
+      local formatters_and_linters = {
+        "prettier", "black", "isort", "eslint_d", "flake8"
       }
-    end,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
+
+      for _, tool in ipairs(formatters_and_linters) do
+        local package = mason_registry.get_package(tool)
+        if not package:is_installed() then
+          package:install()
+        end
+      end
+
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+      -- Shared on_attach function for all LSP servers
+      local on_attach = function(client, bufnr)
+        -- Enable auto-format on save for supported servers
+        if client.supports_method("textDocument/formatting") then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format({ timeout_ms = 2000 })
+            end,
+          })
+        end
+      end
+
+      -- Configure standard LSP servers with shared on_attach
+      local basic_servers = { "lua_ls", "cssls", "jsonls", "yamlls" }
+      for _, server_name in ipairs(basic_servers) do
+        vim.lsp.config(server_name, {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+        vim.lsp.enable(server_name)
+      end
+
+      -- TypeScript/JavaScript enhanced configuration
+      vim.lsp.config("ts_ls", {
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+
+          -- TypeScript-specific keymaps
+          local opts = { buffer = bufnr, silent = true }
+          vim.keymap.set("n", "<leader>to", function()
+            vim.lsp.buf.execute_command({
+              command = "_typescript.organizeImports",
+              arguments = { vim.api.nvim_buf_get_name(bufnr) }
+            })
+          end, opts)
+          vim.keymap.set("n", "<leader>tr", function()
+            vim.lsp.buf.execute_command({
+              command = "_typescript.removeUnused",
+              arguments = { vim.api.nvim_buf_get_name(bufnr) }
+            })
+          end, opts)
+        end,
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+            }
+          }
+        }
+      })
+
+      -- Python enhanced configuration
+      vim.lsp.config("pyright", {
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+
+          -- Python-specific keymaps
+          local opts = { buffer = bufnr, silent = true }
+          vim.keymap.set("n", "<leader>pt", function()
+            vim.cmd("terminal python -m pytest")
+          end, opts)
+        end,
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoImportCompletions = true,
+            }
+          }
+        }
+      })
+
+      -- Configure Expert LSP with custom Elixir-specific functionality
+      vim.lsp.config("expert", {
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          -- Apply shared functionality
+          on_attach(client, bufnr)
+
+          -- Elixir-specific keymaps
+          local opts = { buffer = bufnr, silent = true }
+          vim.keymap.set("n", "<leader>et", function()
+            vim.cmd("terminal mix test")
+          end, opts)
+        end,
+      })
+    end
   },
 }
