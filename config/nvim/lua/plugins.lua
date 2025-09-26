@@ -289,8 +289,33 @@ return {
       vim.lsp.config("expert", {
         capabilities = capabilities,
         on_attach = function(client, bufnr)
-          -- Apply shared functionality
-          on_attach(client, bufnr)
+          -- Disable LSP formatting for Expert (use mix format instead)
+          client.server_capabilities.documentFormattingProvider = false
+
+          -- Enable mix format on save for Elixir files
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              -- Check if we're in a Mix project
+              if vim.fs.root(vim.api.nvim_buf_get_name(bufnr), { "mix.exs" }) then
+                -- Get buffer content, format it, and replace buffer content
+                local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+                local content = table.concat(lines, '\n')
+
+                -- Write content to temp file, format it, read it back
+                local temp_file = vim.fn.tempname() .. '.ex'
+                vim.fn.writefile(lines, temp_file)
+                vim.fn.system("mix format " .. vim.fn.shellescape(temp_file))
+
+                -- Read formatted content and update buffer
+                local formatted_lines = vim.fn.readfile(temp_file)
+                vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, formatted_lines)
+
+                -- Clean up temp file
+                vim.fn.delete(temp_file)
+              end
+            end,
+          })
 
           -- Elixir-specific keymaps
           local opts = { buffer = bufnr, silent = true }
