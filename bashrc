@@ -102,6 +102,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+if [ -f /usr/share/bash-completion/completions/git ] && ! shopt -oq posix; then
+    source /usr/share/bash-completion/completions/git
+fi
+
 if [ -f $HOME/.bash_aliases ]; then
   . $HOME/.bash_aliases
 fi
@@ -117,3 +121,9 @@ stty stop ''
 
 alias gvim='UBUNTU_MENUPROXY= gvim'
 [ -f $HOME/.bash.local ] && source $HOME/.bash.local
+
+. "$HOME/.local/bin/env"
+eval "$(mise activate bash)"
+export PATH="/opt/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/opt/cuda/lib64:$LD_LIBRARY_PATH"
+export XLA_TARGET=rocm

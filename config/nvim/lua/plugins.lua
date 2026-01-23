@@ -1,12 +1,14 @@
 return {
-  {"EdenEast/nightfox.nvim",
+  {
+    "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 1000,
     config = function()
       vim.cmd([[colorscheme nightfox]])
     end
   },
-  {"nvim-neo-tree/neo-tree.nvim",
+  {
+    "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -15,8 +17,8 @@ return {
       -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     keys = {
-      {"<leader>t", "<cmd>Neotree toggle left<cr>"},
-      {"<leader>b", "<cmd>Neotree toggle buffers right<cr>"},
+      { "<leader>t", "<cmd>Neotree toggle left<cr>" },
+      { "<leader>b", "<cmd>Neotree toggle buffers right<cr>" },
     },
     opts = {
       filesystem = {
@@ -29,13 +31,15 @@ return {
       require('neo-tree').setup(opts)
     end
   },
-  {"nvim-treesitter/nvim-treesitter",
+  {
+    "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     lazy = false,
-    opts =  {
+    opts = {
       ensure_installed = {
         "bash",
         "c",
+        "c3",
         "css",
         "eex",
         "elixir",
@@ -61,36 +65,62 @@ return {
         enable_autocmd = false
       }
     },
-    config = function(_, opts) require('nvim-treesitter.configs').setup(opts) end
+    config = function(_, opts)
+      -- Add C3 parser configuration before setting up treesitter
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      parser_config.c3 = {
+        install_info = {
+          url = "https://github.com/c3lang/tree-sitter-c3",
+          files = { "src/parser.c", "src/scanner.c" },
+          branch = "main",
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = "c3",
+      }
+
+      parser_config.lilypond = {
+        install_info = {
+          url = "/home/tristan/workspace/tree-sitter-lilypond/",
+          files = { "src/parser.c" },
+          branch = "main",
+        },
+        filetype = "lilypond",
+      }
+
+      require('nvim-treesitter.configs').setup(opts)
+    end
   },
-  {"nvim-telescope/telescope.nvim",
+  {
+    "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      {"<leader>o", "<cmd>Telescope find_files<cr>"},
-      {"<leader>a", "<cmd>Telescope live_grep<cr>"},
+      { "<leader>o", "<cmd>Telescope find_files<cr>" },
+      { "<leader>a", "<cmd>Telescope live_grep<cr>" },
     },
     config = true
   },
   {
-  'windwp/nvim-autopairs',
+    'windwp/nvim-autopairs',
     event = "InsertEnter",
     config = true
   },
   {
-  'nvim-lualine/lualine.nvim',
+    'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = true
   },
   {
-  "kylechui/nvim-surround",
+    "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
   },
-  {"folke/which-key.nvim",
+  {
+    "folke/which-key.nvim",
     event = "VeryLazy"
   },
   {
-  "christoomey/vim-tmux-navigator",
+    "christoomey/vim-tmux-navigator",
     cmd = {
       "TmuxNavigateLeft",
       "TmuxNavigateDown",
@@ -100,19 +130,21 @@ return {
       "TmuxNavigatorProcessList",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
-  {'akinsho/bufferline.nvim',
+  {
+    'akinsho/bufferline.nvim',
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = true
   },
-  {'saghen/blink.cmp',
+  {
+    'saghen/blink.cmp',
     -- use a release tag to download pre-built binaries
     version = '1.*',
     opts = {
@@ -154,9 +186,10 @@ return {
     },
     opts_extend = { "sources.default" }
   },
-  {"mason-org/mason-lspconfig.nvim",
+  {
+    "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      {"mason-org/mason.nvim", opts = {}},
+      { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig"
     },
     opts = function()
@@ -171,11 +204,11 @@ return {
       }
 
       local formatters_and_linters = {
-        "prettier",      -- JS/TS/JSON/YAML formatter
-        "black",         -- Python formatter
-        "isort",         -- Python import sorter
-        "eslint_d",      -- JS/TS linter (fast daemon version)
-        "flake8",        -- Python linter
+        "prettier", -- JS/TS/JSON/YAML formatter
+        "black",    -- Python formatter
+        "isort",    -- Python import sorter
+        "eslint_d", -- JS/TS linter (fast daemon version)
+        "flake8",   -- Python linter
       }
       -- Combine servers and tools for Mason installation
       local all_tools = {}
