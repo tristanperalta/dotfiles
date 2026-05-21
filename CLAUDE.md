@@ -57,7 +57,7 @@ npm i -g vscode-langservers-extracted
   - Nightfox colorscheme
   - Neo-tree file explorer
   - Telescope fuzzy finder
-  - Treesitter syntax highlighting
+  - Treesitter syntax highlighting (nvim-treesitter `main` branch)
   - LSP configuration with Mason
   - Native LSP completion via `vim.lsp.completion`
 

@@ -33,63 +33,63 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    branch = "main",
     lazy = false,
-    opts = {
-      ensure_installed = {
-        "bash",
-        "c",
-        "c3",
-        "css",
-        "eex",
-        "elixir",
-        "erlang",
-        "heex",
-        "html",
-        "javascript",
-        "lua",
-        "python",
-        "rust",
-        "sql",
-        "typescript",
-      },
-      sync_install = false,
-      autotag = {
-        enable = true,
-        filetypes = { 'html', 'xml', 'heex', 'leex', 'eex' }
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false
-      }
-    },
-    config = function(_, opts)
-      -- Add C3 parser configuration before setting up treesitter
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.c3 = {
-        install_info = {
-          url = "https://github.com/c3lang/tree-sitter-c3",
-          files = { "src/parser.c", "src/scanner.c" },
-          branch = "main",
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = "c3",
+    build = ":TSUpdate",
+    config = function()
+      local TS = require('nvim-treesitter')
+
+      -- Detect legacy master branch (still installed before first :Lazy sync).
+      -- Skip main-branch setup; user should run :Lazy sync to pull main.
+      if type(TS.install) ~= 'function' then
+        vim.notify(
+          'nvim-treesitter: legacy `master` branch still installed. Run :Lazy sync to switch to `main`.',
+          vim.log.levels.WARN
+        )
+        return
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          local parsers = require('nvim-treesitter.parsers')
+          parsers.c3 = {
+            install_info = {
+              url = 'https://github.com/c3lang/tree-sitter-c3',
+              branch = 'main',
+              queries = 'queries',
+            },
+          }
+          parsers.lilypond = {
+            install_info = {
+              path = '/home/tristan/workspace/tree-sitter-lilypond',
+              queries = 'queries',
+            },
+          }
+        end,
+      })
+
+      TS.setup()
+
+      local ensure_installed = {
+        'bash', 'c', 'c3', 'css', 'eex', 'elixir', 'erlang', 'heex',
+        'html', 'javascript', 'lua', 'python', 'rust', 'sql', 'typescript',
       }
 
-      parser_config.lilypond = {
-        install_info = {
-          url = "/home/tristan/workspace/tree-sitter-lilypond/",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "lilypond",
-      }
+      local installed = TS.get_installed and TS.get_installed('parsers') or {}
+      local have = {}
+      for _, p in ipairs(installed) do have[p] = true end
+      local missing = vim.tbl_filter(function(p) return not have[p] end, ensure_installed)
+      if #missing > 0 then TS.install(missing) end
 
-      require('nvim-treesitter.configs').setup(opts)
-    end
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = ensure_installed,
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+    end,
   },
   {
     "nvim-telescope/telescope.nvim",
