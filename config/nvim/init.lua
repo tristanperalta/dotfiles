@@ -45,7 +45,7 @@ local options = {
   hlsearch = true,
   swapfile = false,
   history = 1000,
-  completeopt = { "menu", "menuone", "noselect" },
+  completeopt = { "menuone", "noselect", "popup" },
   timeoutlen = 300,
   list = true,
   listchars = vim.opt.listchars:append({ eol = '↴', trail = '⋅', extends = '#'}),
@@ -81,6 +81,9 @@ vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ timeout_ms = 20
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic' })
+
+vim.keymap.set('i', '<C-space>', function() vim.lsp.completion.get() end,
+  { desc = 'Trigger LSP completion' })
 
 -- Telescope LSP keymaps
 vim.keymap.set('n', '<leader>ls', '<cmd>Telescope lsp_document_symbols<cr>', { desc = 'Document symbols' })

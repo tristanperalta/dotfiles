@@ -59,7 +59,7 @@ npm i -g vscode-langservers-extracted
   - Telescope fuzzy finder
   - Treesitter syntax highlighting
   - LSP configuration with Mason
-  - Blink completion engine
+  - Native LSP completion via `vim.lsp.completion`
 
 ### Window Manager
 - **i3config**: i3 window manager configuration

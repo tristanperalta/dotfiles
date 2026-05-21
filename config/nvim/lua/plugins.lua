@@ -144,49 +144,6 @@ return {
     config = true
   },
   {
-    'saghen/blink.cmp',
-    -- use a release tag to download pre-built binaries
-    version = '1.*',
-    opts = {
-      -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-      -- 'super-tab' for mappings similar to vscode (tab to accept)
-      -- 'enter' for enter to accept
-      -- 'none' for no mappings
-      --
-      -- All presets have the following mappings:
-      -- C-space: Open menu or open docs if already open
-      -- C-n/C-p or Up/Down: Select next/previous item
-      -- C-e: Hide menu
-      -- C-k: Toggle signature help (if signature.enabled = true)
-      --
-      -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = { preset = 'default' },
-
-      appearance = {
-        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono'
-      },
-
-      -- (Default) Only show the documentation popup when manually triggered
-      completion = { documentation = { auto_show = false } },
-
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
-
-      -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-      -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-      -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-      --
-      -- See the fuzzy documentation for more information
-      fuzzy = { implementation = "prefer_rust_with_warning" }
-    },
-    opts_extend = { "sources.default" }
-  },
-  {
     "mason-org/mason-lspconfig.nvim",
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
@@ -236,12 +193,15 @@ return {
         end
       end
 
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
-
       -- Shared on_attach function for all LSP servers
       local on_attach = function(client, bufnr)
+        -- Enable native LSP completion (Neovim 0.11+)
+        if client:supports_method("textDocument/completion") then
+          vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+        end
+
         -- Enable auto-format on save for supported servers
-        if client.supports_method("textDocument/formatting") then
+        if client:supports_method("textDocument/formatting") then
           vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             callback = function()
@@ -255,7 +215,6 @@ return {
       local basic_servers = { "lua_ls", "cssls", "jsonls", "yamlls" }
       for _, server_name in ipairs(basic_servers) do
         vim.lsp.config(server_name, {
-          capabilities = capabilities,
           on_attach = on_attach,
         })
         vim.lsp.enable(server_name)
@@ -263,7 +222,6 @@ return {
 
       -- TypeScript/JavaScript enhanced configuration
       vim.lsp.config("ts_ls", {
-        capabilities = capabilities,
         on_attach = function(client, bufnr)
           on_attach(client, bufnr)
 
@@ -298,7 +256,6 @@ return {
 
       -- Python enhanced configuration
       vim.lsp.config("pyright", {
-        capabilities = capabilities,
         on_attach = function(client, bufnr)
           on_attach(client, bufnr)
 
@@ -320,8 +277,12 @@ return {
 
       -- Configure Expert LSP with custom Elixir-specific functionality
       vim.lsp.config("expert", {
-        capabilities = capabilities,
         on_attach = function(client, bufnr)
+          -- Enable native LSP completion
+          if client:supports_method("textDocument/completion") then
+            vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+          end
+
           -- Disable LSP formatting for Expert (use mix format instead)
           client.server_capabilities.documentFormattingProvider = false
 
