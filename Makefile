@@ -1,4 +1,4 @@
-SOURCE_FILES = bashrc gemrc gitconfig tmux.conf bash_aliases Xresources
+SOURCE_FILES = bashrc gemrc gitconfig tmux.conf bash_aliases Xresources git-templates
 DOT_FILES = $(foreach f, $(SOURCE_FILES), $(addprefix ., $(f)))
 TARGET_FILES = $(foreach f, $(DOT_FILES), $(addprefix $(HOME)/, $(f)))
 
