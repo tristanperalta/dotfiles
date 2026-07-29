@@ -57,9 +57,6 @@ for k, v in pairs(options) do
 end
 
 -- Keymaps
-vim.g.mapleader = "-"
-
-local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = false }
 
 vim.keymap.set("n", "/", "/\\v", opts)
@@ -75,11 +72,8 @@ vim.keymap.set("", "<C-p>", ":bprev<cr>", opts)
 vim.keymap.set("", "<leader>d", ":bdel<cr>", opts)
 
 -- LSP keymaps (applied globally)
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+-- Nvim maps gra/grn/grr/gri/grt/grx, K, gO and [d/]d by default; only the gaps are set here.
 vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, { desc = 'Format buffer' })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic' })
 
 vim.keymap.set('i', '<C-space>', function() vim.lsp.completion.get() end,
@@ -98,8 +92,14 @@ vim.diagnostic.config({
     source = 'if_many',
   },
   float = {
-    source = 'always',
+    source = true,
     border = 'rounded',
+  },
+  -- The built-in [d/]d don't open a float the way the old goto_prev/goto_next did.
+  jump = {
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({ bufnr = bufnr, scope = 'cursor' })
+    end,
   },
   signs = {
     text = {
