@@ -121,8 +121,12 @@ for _, p in ipairs(installed) do have[p] = true end
 local missing = vim.tbl_filter(function(p) return not have[p] end, ensure_installed)
 if #missing > 0 then TS.install(missing) end
 
+-- Filetypes to start treesitter on. Mostly the parser names, plus the cases
+-- where Nvim's filetype differs from the parser name (.sh files are "sh").
+local filetypes = vim.list_extend({ 'sh' }, ensure_installed)
+
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = ensure_installed,
+  pattern = filetypes,
   callback = function(args)
     pcall(vim.treesitter.start, args.buf)
     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
