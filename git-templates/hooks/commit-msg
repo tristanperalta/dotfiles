@@ -6,6 +6,7 @@ commit_msg_file="$1"
 # Remove lines containing the attribution patterns
 sed -i '/Generated with/d' "$commit_msg_file"
 sed -i '/Co-Authored-By/d' "$commit_msg_file"
+sed -i '/Claude-Session/d' "$commit_msg_file"
 
 # Remove trailing blank lines
 sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$commit_msg_file"
